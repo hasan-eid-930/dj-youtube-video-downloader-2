@@ -12,21 +12,35 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-
+import dj_database_url
+from environ import Env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = Env()
+Env.read_env()
+
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o7mk(6vb!o=p8)vybaa1h#fjd58t=2ig6bxeio$-c6m9avxs(z'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == 'development':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',env('RENDER_EXTERNAL_HOSTNAME')]
+
+# this code used for debug variable to work inside html like {%if debug%} 
+INTERNAL_IPS = (
+    '127.0.0.1',
+    'localhost:8000'
+)
 
 
 # Application definition
@@ -77,16 +91,24 @@ TEMPLATES = [
 ASGI_APPLICATION = "project.asgi.application"
 
 # WSGI_APPLICATION = 'project.wsgi.application'
+# used locally
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-            
-        },
-
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
+REDIS_LOCALLY = False
+if ENVIRONMENT == 'production' or REDIS_LOCALLY == True:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [(env('REDIS_URL'))],
+                
+            },
+
+        }
+    }
 
 # WEBSOCKET_CLOSE_TIMEOUT = 20  # Increase the timeout to 20 seconds
 # WEBSOCKET_DISCONNECT_TIMEOUT = 20  # Increase the timeout to 10 seconds
@@ -101,6 +123,9 @@ DATABASES = {
     }
 }
 
+POSTGRES_LOCALLY = False
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
