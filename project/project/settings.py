@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'admin_honeypot',
 ]
 # SESSION_COOKIE_AGE=600
 # SESSION_SAVE_EVERY_REQUEST= True
