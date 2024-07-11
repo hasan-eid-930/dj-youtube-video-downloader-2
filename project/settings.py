@@ -29,7 +29,7 @@ ENVIRONMENT = env('ENVIRONMENT', default='production')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'production':
+if ENVIRONMENT == 'development':
     DEBUG = True
 else:
     DEBUG = False
@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'app',
     'admin_honeypot',
 ]
@@ -70,7 +72,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'app.middleware.remove_file_middleware',
 ]
-
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
@@ -169,6 +170,25 @@ STATICFILES_DIRS = [
 ]
 # this folder used to collect all static file inside it
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+MEDIA_URL = 'media/'
+
+# used in production
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True: 
+    # this will serve only images there are other option for raw types and videos on cloudinary
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # cloudinary credentials 
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': env('CLOUDINARY_API_KEY'),
+        'API_SECRET': env('CLOUDINARY_API_SECRET')
+    }
+# used in development
+else:
+    MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
