@@ -35,7 +35,7 @@ else:
     DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',env('RENDER_EXTERNAL_HOSTNAME')]
-CSRF_TRUSTED_ORIGINS = [ 'https://*' ]
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS',default=['https://*'])
 # this code used for debug variable to work inside html like {%if debug%} 
 INTERNAL_IPS = (
     '127.0.0.1',
