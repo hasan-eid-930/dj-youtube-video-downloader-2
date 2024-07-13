@@ -21,7 +21,7 @@ env = Env()
 Env.read_env()
 
 ENVIRONMENT = env('ENVIRONMENT', default='production')
-
+STAGING = env('STAGING', default='False')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'app',
+    'landingpages',
     'admin_honeypot',
+
 ]
 # SESSION_COOKIE_AGE=600
 # SESSION_SAVE_EVERY_REQUEST= True
@@ -71,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'app.middleware.remove_file_middleware',
+    'landingpages.middleware.landingpage_middleware',
 ]
 ROOT_URLCONF = 'project.urls'
 

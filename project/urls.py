@@ -6,6 +6,8 @@ urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     # admin page
     path('theboss/', admin.site.urls),
-    path('', include('app.urls'))
+    path('', include('app.urls')),
+    # for landing pages 
+    path('land/', include('landingpages.urls')),
 
 ]

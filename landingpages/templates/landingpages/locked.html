@@ -1,0 +1,14 @@
+{% extends "landingpages/base.html" %}
+{% block title %}
+  <title>Locked</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="container text-center ">
+        <form class="mt-5 mx-auto justify-content-center d-flex" method="post" action="{%url 'locked'%}">
+            {% csrf_token %}
+            {{form}}
+            <button class=" ms-3 btn btn-success" type="submit">go</button>
+        </form>
+    </div>
+  {% endblock content %}
