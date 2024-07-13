@@ -2,6 +2,15 @@
 <!DOCTYPE html> 
 <html> 
   <head>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JCJSW55H0"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0JCJSW55H0');
+      </script>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="Quickly and easily download your favorite YouTube videos in various formats. Free, fast, and no hassle!">
@@ -10,6 +19,7 @@
       {% comment %} open graph tags {% endcomment %}
       <meta property="og:title" content="YT downloader" />
       <meta property="og:description" content="Quickly and easily download your favorite YouTube videos in various formats. Free, fast, and no hassle!" />
+      <meta property="og:type" content="website" />
       <meta property="og:image" content="https://{{request.META.HTTP_HOST}}{% static "images/yt downloader.jpg" %}" />
       <meta property="og:url" content="https://{{request.META.HTTP_HOST}}{{request.path}}" />
 
