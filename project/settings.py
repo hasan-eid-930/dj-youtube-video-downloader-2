@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'app',
     'landingpages',
     'admin_honeypot',
+    'django.contrib.sitemaps',
 
 ]
 # SESSION_COOKIE_AGE=600
